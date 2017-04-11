@@ -1,5 +1,5 @@
 @echo off
-title ioio youli admin 18102
-cd /d %~dp0
+title ec_warehouse 18017
+cd C:\projects\ec_warehouse
 nodemon .
 @echo on
