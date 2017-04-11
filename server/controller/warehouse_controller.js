@@ -42,8 +42,25 @@ var do_result = function(err,result,cb){
 
 exports.register = function(server, options, next){
 	server.route([
+		//创建捡炼主表单，辅单
+		{
+			method: 'POST',
+			path: '/save_pick_infos',
+			handler: function(request, reply){
+				var order = request.payload.order;
+				order = JSON.parse(order);
+				var order_id = order.order_id;
+				
 
-
+				server.plugins['models'].pick_up_main.save_pick_main(order_id, location,state,point_id,weights,function(err,row){
+					if (row.affectedRows>0) {
+						return reply({"success":true,"message":"ok","service_info":service_info});
+					}else {
+						return reply({"success":false,"message":row.message,"service_info":service_info});
+					}
+				});
+			}
+		},
 
     ]);
 
