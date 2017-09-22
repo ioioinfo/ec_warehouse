@@ -1,14 +1,11 @@
-﻿var Hapi = require('hapi');
-// Create a server with a host and port
+var Hapi = require('hapi');
 var server = new Hapi.Server();
 
-// Setup the server with a host and port
 server.connection({
     port: parseInt(process.env.PORT, 10) || 18017,
     host: '0.0.0.0'
 });
 
-// Setup the views engine and folder
 server.register(require('vision'), (err) => {
     if (err) {
         throw err;
@@ -33,23 +30,17 @@ server.state('cookie', {
     isSecure: false,
     isHttpOnly: true,
     encoding: 'base64json',
-    clearInvalid: false, // remove invalid cookies
-    strictHeader: true // don't allow violations of RFC 6265
+    clearInvalid: false,
+    strictHeader: true
 });
 
-// Export the server to be required elsewhere.
 module.exports = server;
 
-/*
-    Load all plugins and then start the server.
-    First: community/npm plugins are loaded
-    Second: project specific plugins are loaded
- */
 server.register([
 	{
         register: require("good"),
         options: {
-            ops: {interval: 5000},
+            ops: false,
             reporters: {
                 myConsoleReporter: [{
                     module: 'good-console'
